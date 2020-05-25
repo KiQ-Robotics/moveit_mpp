@@ -21,7 +21,7 @@
 
 #include <moveit/planning_interface/planning_interface.h>
 #include <ros/node_handle.h>
-#include <pluginlib/class_loader.h>
+#include <pluginlib/class_loader.hpp>
 
 #include <map>
 #include <string>
@@ -29,28 +29,26 @@
 
 namespace moveit_mpp
 {
-
 class MultiPlannerPluginManager : public planning_interface::PlannerManager
 {
 public:
   MultiPlannerPluginManager();
   virtual ~MultiPlannerPluginManager();
 
-  bool initialize(const robot_model::RobotModelConstPtr &model, const std::string &ns) override;
+  bool initialize(const robot_model::RobotModelConstPtr& model, const std::string& ns) override;
 
-  bool canServiceRequest(const moveit_msgs::MotionPlanRequest &req) const override;
+  bool canServiceRequest(const moveit_msgs::MotionPlanRequest& req) const override;
 
   std::string getDescription() const override
   {
     return "Multi Planner Plugin";
   }
 
-  void getPlanningAlgorithms(std::vector<std::string> &algs) const override;
+  void getPlanningAlgorithms(std::vector<std::string>& algs) const override;
 
-  planning_interface::PlanningContextPtr getPlanningContext(
-      const planning_scene::PlanningSceneConstPtr &planning_scene,
-      const planning_interface::MotionPlanRequest &req,
-      moveit_msgs::MoveItErrorCodes &error_code) const override;
+  planning_interface::PlanningContextPtr getPlanningContext(const planning_scene::PlanningSceneConstPtr& planning_scene,
+                                                            const planning_interface::MotionPlanRequest& req,
+                                                            moveit_msgs::MoveItErrorCodes& error_code) const override;
 
 protected:
   ros::NodeHandle nh_;
@@ -59,6 +57,6 @@ protected:
   boost::shared_ptr<pluginlib::ClassLoader<planning_interface::PlannerManager> > planner_plugin_loader_;
 };
 
-}
+}  // namespace moveit_mpp
 
 #endif /* MOVEIT_MPP_PLANNER_MANAGER_H_ */
